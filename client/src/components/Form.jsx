@@ -29,21 +29,22 @@ const Form = (props) => {
             if(pirate.position == 'Captain'){
                 setErrors(['There can only be ONE captain'])
             }
-            else{
-                axios[method]('http://localhost:8000/api/'+ path, pirate)
-                    .then(res=>{
-                        console.log(res.data);
-                        nav('/pirates')
-                    })
-                    .catch(err=> {
-                        const errResponse = err.response.data.errors;
-                        const errArray = [];
-                        for (const key of Object.keys(errResponse)){
-                            errArray.push(errResponse[key].message)
-                        };
-                        setErrors(errArray);
+        }
+        
+        else{
+            axios[method]('http://localhost:8000/api/'+ path, pirate)
+                .then(res=>{
+                    console.log(res.data);
+                    nav('/pirates')
                 })
-            }
+                .catch(err=> {
+                    const errResponse = err.response.data.errors;
+                    const errArray = [];
+                    for (const key of Object.keys(errResponse)){
+                        errArray.push(errResponse[key].message)
+                    };
+                    setErrors(errArray);
+            })
         }
     }
 
