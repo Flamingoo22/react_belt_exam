@@ -22,9 +22,13 @@ module.exports = {
                 .then(captainExist => {
                     if (captainExist) {
                         // Promise.reject() will activate the .catch() below.
-                        return Promise.reject('Captain already exist');
+                        return Promise.reject({errors:{
+                            oneCaptain:{message:'Captain already exist'}}});
                     }
-                    return Pirate.create(req.body);
+                    return (Pirate.create(req.body)
+                            .then( newPirate => {
+                            res.json(newPirate)
+                            }));
                 })
                 .catch(err => res.status(400).json(err))
         }

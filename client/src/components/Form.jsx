@@ -7,7 +7,7 @@ import { FormControlLabel, Checkbox, Select, MenuItem, Stack } from '@mui/materi
 import axios from 'axios';
 
 const Form = (props) => {
-    const { name, method, path, hasCaptain } = props;
+    const { method, path } = props;
     const [ pirate, setPirate ] = useState({
         name:'',
         imageUrl: '',
@@ -24,28 +24,19 @@ const Form = (props) => {
 
     const onSubmitHandler = (e) =>{
         e.preventDefault();
-        if(hasCaptain){
-            console.log(pirate.position)
-            if(pirate.position == 'Captain'){
-                setErrors(['There can only be ONE captain'])
-            }
-        }
-        
-        else{
-            axios[method]('http://localhost:8000/api/'+ path, pirate)
-                .then(res=>{
-                    console.log(res.data);
-                    nav('/pirates')
-                })
-                .catch(err=> {
-                    const errResponse = err.response.data.errors;
-                    const errArray = [];
-                    for (const key of Object.keys(errResponse)){
-                        errArray.push(errResponse[key].message)
-                    };
-                    setErrors(errArray);
+        axios[method]('http://localhost:8000/api/'+ path, pirate)
+            .then(res=>{
+                console.log(res.data);
+                nav('/pirates')
             })
-        }
+            .catch(err=> {
+                const errResponse = err.response.data.errors;
+                const errArray = [];
+                for (const key of Object.keys(errResponse)){
+                    errArray.push(errResponse[key].message)
+                };
+                setErrors(errArray);
+        })
     }
 
     const createPirate = (e, value) =>{

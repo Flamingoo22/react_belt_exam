@@ -8,20 +8,11 @@ import Paper from '@mui/material/Paper'
 
 const CreatePage = (props) => {
     const [ pirates, setPirates ] = useState([])
-    const [ hasCaptain, setHasCaptain ] = useState(false)
 
-    const checkCaptain = (data) =>{
-        data.map((pirate) =>{
-            if(pirate.position === 'Captain'){
-                setHasCaptain(true);
-            }
-        })
-    }
     useEffect(()=>{
         axios.get('http://localhost:8000/api/pirates')
             .then(res => {
                 setPirates(res.data)
-                checkCaptain(res.data)
             })
             .catch(err => console.log(err))
     }, [])
@@ -36,7 +27,6 @@ const CreatePage = (props) => {
                     method='post'
                     path='pirates'
                     name=''
-                    hasCaptain={hasCaptain}
                     />}
                 </Paper>
             </Grid>
